@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import ProfileButton from "./ProfileButton";
 import { NavLink } from "react-router-dom";
+import AuthenticationContext from "../../Store/auth-context";
 const StyledHeader = styled.section`
   background: #444791;
   height: 3rem;
@@ -63,7 +64,30 @@ const Styledinput = styled.input`
     position: fixed;
   }
 `;
+const StyledLogoutButton = styled.button`
+  border: 1px solid white;
+  background: #444791;
+  border-radius: 0.4rem;
+  height: 1.5rem;
+  color: white;
+  width: 4rem;
+  margin-right: 2rem;
+  align-items: center;
+  border-radius: 4px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+const StyledRightSide = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const AppHeader = () => {
+  const Authenticationctx = useContext(AuthenticationContext);
+  const logoutHandler = () => {
+    console.log(`logout handler called in appheader`);
+    Authenticationctx.logout();
+  };
   return (
     <StyledHeader>
       <NavLink
@@ -74,7 +98,10 @@ const AppHeader = () => {
         Microsoft Teams
       </NavLink>
       <Styledinput placeholder="Search"></Styledinput>
-      <ProfileButton className="profileButton"></ProfileButton>
+      <StyledRightSide>
+        <StyledLogoutButton onClick={logoutHandler}>Logout</StyledLogoutButton>
+        <ProfileButton className="profileButton"></ProfileButton>
+      </StyledRightSide>
     </StyledHeader>
   );
 };
